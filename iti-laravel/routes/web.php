@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,14 @@ Route::get('/posts/edit/{post}', [PostController::class, 'edit'])->name(name:'po
 
 Route::put('/posts/update/{post}', [PostController::class, 'update'])->name(name:'posts.update');
 
+Route::get('/posts/delete/{post}', [PostController::class, 'delete'])->name(name:'posts.delete');
+
+
+// date formate
+Route::get('date',function(){
+    $current = new Carbon();
+    // echo $current->isoFormat('LLLL'); //comment
+    echo $current->toDateString();
+    echo "<br>";
+    // echo $current->toDateTimeString();
+});

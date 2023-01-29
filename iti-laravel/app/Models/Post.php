@@ -28,3 +28,4 @@ class Post extends Model
         return $this->belongsTo(User::class, foreignKey:'user_id');
     }
 }
+

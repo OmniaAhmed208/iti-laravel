@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $allPosts = Post::all(); //return object
+        // $allPosts = Post::all(); //return object // all()=>show all records
+        $allPosts = Post::paginate(3);
 
         // dd($allPosts); // dd => die dump ==> print and exit
 
+        $current = new Carbon(); //time format Carbon
+        $date = $current->toDateString();
+
+
         return view('posts.index',[ // index => show tables
             'posts' => $allPosts,
+            'date' => $date
         ]);
 
     }
@@ -59,9 +66,13 @@ class PostController extends Controller
 
     public function show($postId){
         // @dd($postId);
-        $post = Post::find($postId) ;
+        $post = Post::find($postId);
 
-        return view('posts.show',['post'=>$post]);
+        // for date of comment
+        $current = new Carbon();
+        $date = $current->isoFormat('LLLL');
+
+        return view('posts.show',['post'=>$post,'date'=>$date]);
     }
 
 
@@ -98,4 +109,16 @@ class PostController extends Controller
 
         return redirect('/posts');
     }
+
+
+    public function delete($postId){
+
+        $posts = POST::find($postId);
+        // POST::where('id',$postId)->delete();
+        // OR
+        $posts->delete();
+
+        return redirect('/posts');
+    }
+
 }

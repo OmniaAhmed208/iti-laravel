@@ -21,7 +21,7 @@
   <div class="card-body">
 
     <span class="card-title" style="font-weight:bold">Name:</span>
-    <span>{{$post->posted_by}}</span>
+    <span>{{$post->user->name ?? 'not Found'}}</span>
     <br><br>
     <span class="card-title" style="font-weight:bold">created_at:</span>
     <span class="card-title">{{$post->created_at}}</span>

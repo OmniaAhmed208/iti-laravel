@@ -45,16 +45,21 @@
 
     {{--<td>{{$post->user}}</td> Errorrrr--}}
 
-      <td>{{$post->created_at}}</td>
+    {{--<td>{{$post->created_at}}</td>--}}
+    <td>{{$date}}</td>{{--date from carbon--}}
+
       <td>
         {{--<!-- <a href="/posts/{{$post['id']}}" class="btn btn-secondary">View</a> -->--}}
         <a href="{{route('posts.show', $post->id)}}" class="btn btn-secondary">View</a>
         <a href="{{route('posts.edit', $post->id)}}" class="btn btn-primary">Edit</a>
-        <a href="" class="btn btn-danger">Delete</a>
+        <a href="{{route('posts.delete', $post->id)}}" onclick="return confirm('Are you sure to delete it?')"
+        class="btn btn-danger deleteBtn">Delete</a>
       </td>
     </tr>
     @endforeach
   </tbody>
   </table>
+
+  {{$posts->links()}} {{--Paginator--}}
 
   @endsection
