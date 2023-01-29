@@ -9,10 +9,10 @@
   <div class="card-body">
 
     <span class="card-title" style="font-weight:bold">Title:</span>
-    <span>{{$title}}</span>
+    <span>{{$post->title}}</span>
     <br><br>
     <span class="card-title" style="font-weight:bold">Description:</span>
-    <span class="card-title">{{$description}}</span>
+    <span class="card-title">{{$post->description}}</span>
   </div>
 </div>
 
@@ -21,10 +21,10 @@
   <div class="card-body">
 
     <span class="card-title" style="font-weight:bold">Name:</span>
-    <span>{{$posted_by}}</span>
+    <span>{{$post->posted_by}}</span>
     <br><br>
     <span class="card-title" style="font-weight:bold">created_at:</span>
-    <span class="card-title">{{$created_at}}</span>
+    <span class="card-title">{{$post->created_at}}</span>
   </div>
 </div>
 

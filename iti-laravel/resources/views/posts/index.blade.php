@@ -20,16 +20,36 @@
   </thead>
   <tbody>
     @foreach($posts as $post)
+
     {{-- @dd($post) ==>//  print first row in array and die --}}
     <tr>
-      <th scope="row">{{$post['id']}}</th>
-      <td>{{$post['title']}}</td>
-      <td>{{$post['posted_by']}}</td>
-      <td>{{$post['created_at']}}</td>
+    {{--<th scope="row">{{$post['id']}}</th>--}}
+    {{--<td>{{$post['title']}}</td>--}}
+    {{--<td>{{$post['posted_by']}}</td>--}}
+    {{--<td>{{$post['created_at']}}</td>--}}
+
+      <th scope="row">{{$post->id}}</th>
+      <td>{{$post->title}}</td>
+
+    {{--@if($post->user)--}}
+    {{--<td>{{$post->user->name}}</td>--}}
+    {{--@else--}}
+    {{--<td>User not Found</td>--}}
+    {{--@endif--}}
+
+    {{--<td>{{$post->user?->name}}</td>--}}
+
+    {{--<td>{{$post->user ? $post->user->name : "Not Found"}}</td>--}}
+
+    <td>{{$post->user->name ?? "Not Found"}}</td>
+
+    {{--<td>{{$post->user}}</td> Errorrrr--}}
+
+      <td>{{$post->created_at}}</td>
       <td>
         {{--<!-- <a href="/posts/{{$post['id']}}" class="btn btn-secondary">View</a> -->--}}
-        <a href="{{route('posts.show', $post['id'])}}" class="btn btn-secondary">View</a>
-        <a href="{{route('posts.edit', $post['id'])}}" class="btn btn-primary">Edit</a>
+        <a href="{{route('posts.show', $post->id)}}" class="btn btn-secondary">View</a>
+        <a href="{{route('posts.edit', $post->id)}}" class="btn btn-primary">Edit</a>
         <a href="" class="btn btn-danger">Delete</a>
       </td>
     </tr>
