@@ -23,6 +23,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function comments(){
+        // User may make many comments
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -22,10 +22,14 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    // if we used another name for function
+    // if we used another name for function user()
     public function test(){
-        // we say that post model(posts) belong to user calss
         return $this->belongsTo(User::class, foreignKey:'user_id');
+    }
+
+    public function comments(){
+        // post may have many comments
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }
 

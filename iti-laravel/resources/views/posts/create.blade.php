@@ -7,8 +7,8 @@
     <form action="/posts" method="POST">
         @csrf {{-- to store method--}}
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Title</label>
-        <input name="title" type="text" class="form-control" id="exampleFormControlInput1">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input name="title" type="text" class="form-control" id="exampleFormControlInput1">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Description</label>

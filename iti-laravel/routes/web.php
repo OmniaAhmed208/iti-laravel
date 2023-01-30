@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Carbon;
 
@@ -44,3 +46,10 @@ Route::get('date',function(){
     echo "<br>";
     // echo $current->toDateTimeString();
 });
+
+// ________________ Comments __________________
+
+Route::post('/comments/{comment}', [CommentController::class, 'store']);
+Route::get('/comments/edit/{comment}', [CommentController::class, 'edit'])->name(name:'comments.edit');
+Route::put('/comments/update/{comment}', [CommentController::class, 'update'])->name(name:'comments.update');
+Route::get('/comments/delete/{comment}', [CommentController::class, 'delete'])->name(name:'comments.delete');
