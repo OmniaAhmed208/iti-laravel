@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Support\Carbon;
 
 class PostController extends Controller
@@ -67,12 +68,20 @@ class PostController extends Controller
     public function show($postId){
         // @dd($postId);
         $post = Post::find($postId);
+        // @dd($post->title);
 
-        // for date of comment
+        // for date of show page
         $current = new Carbon();
         $date = $current->isoFormat('LLLL');
 
-        return view('posts.show',['post'=>$post,'date'=>$date]);
+        $comments = Comment::get();
+        // dd($comments);
+
+        return view('posts.show',[
+            'post'=>$post,
+            'date'=>$date,
+            'comments'=> $comments
+        ]);
     }
 
 
@@ -122,3 +131,4 @@ class PostController extends Controller
     }
 
 }
+
