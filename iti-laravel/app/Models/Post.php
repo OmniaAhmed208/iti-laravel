@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Prunable;
 
 //  insert into user ['title','desc.....]
     protected $fillable = [
@@ -15,6 +16,7 @@ class Post extends Model
         'description',
         'user_id',
         'slug',
+        'image',
     ];
 
     // join to user table to get user name
@@ -31,6 +33,17 @@ class Post extends Model
     public function comments(){
         // post may have many comments
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    // Prune to clean data at specific time
+    public function prunable()
+    {
+        return static::where('created_at', '<=', now()->subMonth(24)); // delete posts from 2 years
+    }
+
+    protected function pruning()
+    {
+        echo 'pruning '. $this->title . PHP_EOL;
     }
 }
 

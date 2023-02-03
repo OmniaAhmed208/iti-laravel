@@ -15,11 +15,13 @@
       <th scope="col">Title</th>
       <th scope="col">Posted by</th>
       <th scope="col">Created At</th>
+      <th scope="col">Image</th>
       <th scope="col">Slug</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
+
     @foreach($posts as $post)
 
     {{-- @dd($post) ==>//  print first row in array and die --}}
@@ -29,7 +31,7 @@
         {{--<td>{{$post['posted_by']}}</td>--}}
         {{--<td>{{$post['created_at']}}</td>--}}
 
-      <th scope="row">{{$post->id}}</th>
+      <th scope="row">{{$i++}}</th>
       <td>{{$post->title}}</td>
 
         {{--@if($post->user)--}}
@@ -48,6 +50,9 @@
 
         {{--<td>{{$post->created_at}}</td>--}}
         <td>{{$date}}</td>{{--date from carbon--}}
+
+        {{-- <td><img src="/images/{{$post->image}}" style="width:100px" alt=""></td> --}}
+        <td><img src="{{ asset('/storage/'.$post->image)}}" style="width:100px" alt=""></td>
 
         <td>{{$post->slug}}</td>
 

@@ -8,7 +8,11 @@ use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\StorePostRequest;
+use App\Jobs\PruneOldPostsJob;
 use Illuminate\Support\Str; // slug
+use File;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class PostController extends Controller
 {
@@ -22,10 +26,12 @@ class PostController extends Controller
         $current = new Carbon(); //time format Carbon
         $date = $current->toDateString();
 
+        $i = 1;
 
         return view('posts.index',[ // index => show tables
             'posts' => $allPosts,
-            'date' => $date
+            'date' => $date,
+            'i'=> $i,
         ]);
 
     }
@@ -57,13 +63,11 @@ class PostController extends Controller
         // dd($data);
 
         $title = $data['title']; //==> $data['name on input in html']
+        //OR $title = request()->title;
         $description = $data['description'];
         $userId = $data['select_post'];
-        // OR
-        // $title = request()->title;
-        // $description = request()->description;
 
-        // dd($title);
+        $pathImg = $request->file('image')->store('posts'); // store(posts)it inside storage-app-public-posts folder
 
         Post::create([ // to insert in database
             // 'column-name-in-db'=>'value',
@@ -71,6 +75,8 @@ class PostController extends Controller
             'description' => $description,
             'user_id' => $userId,
             'slug' => Str::slug($title),
+            // 'image' => $imgName,
+            'image' => $pathImg,
         ]);
 
         // return "inserted";
@@ -118,12 +124,17 @@ class PostController extends Controller
         // $posts = POST::find($postId);
         $post = Post::where('slug', $postId)->first();
 
+        if($request->hasFile('image')){
+            Storage::delete($post->image);
+            $post->image = $request->file('image')->store('posts');
+        }
         // POST::where('id',$postId)->update([
         POST::where('slug',$postId)->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'user_id' => $request->input('select_post'),
             'slug' => Str::slug($request->input('title')),
+            'image' => $post->image,
         ]);
 
         // OR
@@ -142,8 +153,12 @@ class PostController extends Controller
 
         $posts = POST::find($postId);
         // POST::where('id',$postId)->delete();
-        // OR
+
+        Storage::delete($posts->image); // delete img from folder first then delete the post
+
         $posts->delete();
+
+        // PruneOldPostsJob::dispatch();
 
         return redirect('/posts');
     }

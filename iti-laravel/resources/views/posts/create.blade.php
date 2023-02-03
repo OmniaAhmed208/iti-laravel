@@ -14,7 +14,7 @@
     </div>
 @endif
 
-    <form action="/posts" method="POST">
+    <form action="/posts" method="POST" enctype="multipart/form-data">
         @csrf {{-- to store method--}}
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
@@ -34,6 +34,12 @@
             <label for="exampleFormControlTextarea1" class="form-label">Description</label>
             <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
+
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Image</label>
+            <input name="image" type="file" class="form-control" id="exampleFormControlInput1">
+        </div>
+
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Post Creator</label>
             <select name="select_post" class="form-control">

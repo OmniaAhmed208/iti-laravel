@@ -13,6 +13,11 @@
     <br><br>
     <span class="card-title" style="font-weight:bold">Description:</span>
     <span class="card-title">{{$post->description}}</span>
+    <br><br>
+    @if(!(empty($post->image)))
+    <span class="card-title" style="font-weight:bold">Image:</span>
+    <span class="card-title"><img src="{{ asset('/storage/'.$post->image)}}" style="width:300px" alt=""></span>
+    @endif
   </div>
 </div>
 
