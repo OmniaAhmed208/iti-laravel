@@ -1,10 +1,22 @@
+
 @extends('layouts.app')
 
 @section('title') Create @endsection
 
 @section('content')
 
-    <form action="/posts/update/{{$post->id}}" method="POST">
+    @if ($errors->any()) {{--for validation--}}
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    {{-- <form action="/posts/update/{{$post->id}}" method="POST"> --}}
+    <form action="/posts/update/{{$post->slug}}" method="POST">
         @csrf
         @method('PUT')
         <div class="mb-3">

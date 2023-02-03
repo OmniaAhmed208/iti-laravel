@@ -7,6 +7,8 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Support\Carbon;
+use App\Http\Requests\StorePostRequest;
+use Illuminate\Support\Str; // slug
 
 class PostController extends Controller
 {
@@ -38,10 +40,20 @@ class PostController extends Controller
     }
 
 
-    public function store(){
+    public function store(StorePostRequest $request){
+        // Validation before save data in (StorePostRequest) File
+        // $request->validate([
+        //     'title' => ['required', 'min:3'],
+        //     'description' => ['required', 'min:10']
+        // ],[
+        //     'title.required' => "the title shouldn't be empty", // for change default error msg
+        //     'title.min' => "minimum length of the title is 3"
+        // ]);
+
         // return 'store in database';
         // dd($_POST);
         $data = request()->all();
+        // or $data = $request->all();
         // dd($data);
 
         $title = $data['title']; //==> $data['name on input in html']
@@ -58,6 +70,7 @@ class PostController extends Controller
             'title' => $title,
             'description' => $description,
             'user_id' => $userId,
+            'slug' => Str::slug($title),
         ]);
 
         // return "inserted";
@@ -67,7 +80,8 @@ class PostController extends Controller
 
     public function show($postId){
         // @dd($postId);
-        $post = Post::find($postId);
+        // $post = Post::find($postId);
+        $post = Post::where('slug', $postId)->first();
         // @dd($post->title);
 
         // for date of show page
@@ -89,7 +103,8 @@ class PostController extends Controller
 
         $users = User::get();
         // // dd($users);
-        $post = Post::find($postId);
+        // $post = Post::find($postId);
+        $post = Post::where('slug', $postId)->first();
         // dd($post->title);
 
         return view('posts.edit',[
@@ -98,14 +113,17 @@ class PostController extends Controller
         ]);
     }
 
-    public function update(Request $request,$postId){
+    public function update(StorePostRequest $request,$postId){
 
-        $posts = POST::find($postId);
+        // $posts = POST::find($postId);
+        $post = Post::where('slug', $postId)->first();
 
-        POST::where('id',$postId)->update([
+        // POST::where('id',$postId)->update([
+        POST::where('slug',$postId)->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'user_id' => $request->input('select_post')
+            'user_id' => $request->input('select_post'),
+            'slug' => Str::slug($request->input('title')),
         ]);
 
         // OR

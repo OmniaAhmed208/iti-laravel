@@ -13,7 +13,8 @@ class Post extends Model
     protected $fillable = [
         'title', //column name
         'description',
-        'user_id'
+        'user_id',
+        'slug',
     ];
 
     // join to user table to get user name

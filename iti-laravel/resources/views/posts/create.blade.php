@@ -4,12 +4,32 @@
 
 @section('content')
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <form action="/posts" method="POST">
         @csrf {{-- to store method--}}
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
             <input name="title" type="text" class="form-control" id="exampleFormControlInput1">
         </div>
+
+        {{--if the title is empty--}}
+        {{-- @if ($errors->has('title'))
+        <div class="alert alert-danger">
+            <ul>
+                <li>title error</li>
+            </ul>
+        </div>
+        @endif --}}
+
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Description</label>
             <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>

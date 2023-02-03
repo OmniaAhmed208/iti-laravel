@@ -15,6 +15,7 @@
       <th scope="col">Title</th>
       <th scope="col">Posted by</th>
       <th scope="col">Created At</th>
+      <th scope="col">Slug</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -23,38 +24,42 @@
 
     {{-- @dd($post) ==>//  print first row in array and die --}}
     <tr>
-    {{--<th scope="row">{{$post['id']}}</th>--}}
-    {{--<td>{{$post['title']}}</td>--}}
-    {{--<td>{{$post['posted_by']}}</td>--}}
-    {{--<td>{{$post['created_at']}}</td>--}}
+        {{--<th scope="row">{{$post['id']}}</th>--}}
+        {{--<td>{{$post['title']}}</td>--}}
+        {{--<td>{{$post['posted_by']}}</td>--}}
+        {{--<td>{{$post['created_at']}}</td>--}}
 
       <th scope="row">{{$post->id}}</th>
       <td>{{$post->title}}</td>
 
-    {{--@if($post->user)--}}
-    {{--<td>{{$post->user->name}}</td>--}}
-    {{--@else--}}
-    {{--<td>User not Found</td>--}}
-    {{--@endif--}}
+        {{--@if($post->user)--}}
+            {{--<td>{{$post->user->name}}</td>--}}
+        {{--@else--}}
+            {{--<td>User not Found</td>--}}
+        {{--@endif--}}
 
-    {{--<td>{{$post->user?->name}}</td>--}}
+        {{--<td>{{$post->user?->name}}</td>--}}
 
-    {{--<td>{{$post->user ? $post->user->name : "Not Found"}}</td>--}}
+        {{--<td>{{$post->user ? $post->user->name : "Not Found"}}</td>--}}
 
-    <td>{{$post->user->name ?? "Not Found"}}</td>
+        <td>{{$post->user->name ?? "Not Found"}}</td>
 
-    {{--<td>{{$post->user}}</td> Errorrrr--}}
+        {{--<td>{{$post->user}}</td> Errorrrr--}}
 
-    {{--<td>{{$post->created_at}}</td>--}}
-    <td>{{$date}}</td>{{--date from carbon--}}
+        {{--<td>{{$post->created_at}}</td>--}}
+        <td>{{$date}}</td>{{--date from carbon--}}
 
-      <td>
-        {{--<!-- <a href="/posts/{{$post['id']}}" class="btn btn-secondary">View</a> -->--}}
-        <a href="{{route('posts.show', $post->id)}}" class="btn btn-secondary">View</a>
-        <a href="{{route('posts.edit', $post->id)}}" class="btn btn-primary">Edit</a>
-        <a href="{{route('posts.delete', $post->id)}}" onclick="return confirm('Are you sure to delete it?')"
-        class="btn btn-danger deleteBtn">Delete</a>
-      </td>
+        <td>{{$post->slug}}</td>
+
+        <td>
+            {{--<!-- <a href="/posts/{{$post['id']}}" class="btn btn-secondary">View</a> -->--}}
+            {{-- <a href="{{route('posts.show', $post->id)}}" class="btn btn-secondary">View</a> --}}
+            <a href="{{route('posts.show', $post->slug)}}" class="btn btn-secondary">View</a>
+            <a href="{{route('posts.edit', $post->slug)}}" class="btn btn-primary">Edit</a>
+            <a href="{{route('posts.delete', $post->id)}}" onclick="return confirm('Are you sure to delete it?')"
+            class="btn btn-danger deleteBtn">Delete</a>
+        </td>
+
     </tr>
     @endforeach
   </tbody>
