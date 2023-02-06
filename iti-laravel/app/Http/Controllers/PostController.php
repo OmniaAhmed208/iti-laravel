@@ -8,8 +8,8 @@ use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\StorePostRequest;
-use App\Jobs\PruneOldPostsJob;
 use Illuminate\Support\Str; // slug
+use App\Jobs\PruneOldPostsJob;
 use File;
 use Illuminate\Support\Facades\Storage;
 use Image;
@@ -26,12 +26,10 @@ class PostController extends Controller
         $current = new Carbon(); //time format Carbon
         $date = $current->toDateString();
 
-        $i = 1;
 
         return view('posts.index',[ // index => show tables
             'posts' => $allPosts,
             'date' => $date,
-            'i'=> $i,
         ]);
 
     }
@@ -56,11 +54,8 @@ class PostController extends Controller
         //     'title.min' => "minimum length of the title is 3"
         // ]);
 
-        // return 'store in database';
-        // dd($_POST);
         $data = request()->all();
         // or $data = $request->all();
-        // dd($data);
 
         $title = $data['title']; //==> $data['name on input in html']
         //OR $title = request()->title;
@@ -75,11 +70,9 @@ class PostController extends Controller
             'description' => $description,
             'user_id' => $userId,
             'slug' => Str::slug($title),
-            // 'image' => $imgName,
             'image' => $pathImg,
         ]);
 
-        // return "inserted";
         return to_route(route:'posts.index');
     }
 
@@ -157,8 +150,6 @@ class PostController extends Controller
         Storage::delete($posts->image); // delete img from folder first then delete the post
 
         $posts->delete();
-
-        // PruneOldPostsJob::dispatch();
 
         return redirect('/posts');
     }

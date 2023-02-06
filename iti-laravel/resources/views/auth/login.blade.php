@@ -63,6 +63,16 @@
                                     </a>
                                 @endif
                             </div>
+
+                            <div class="col-md-8 offset-md-4 mt-4">
+                                <a class="btn btn-primary" href="{{route('google-auth')}}">
+                                    Google
+                                </a>
+                                <a class="btn btn-primary" href="{{route('github-auth')}}">
+                                    GitHub
+                                </a>
+                            </div>
+
                         </div>
                     </form>
                 </div>

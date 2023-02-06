@@ -22,7 +22,7 @@
   </thead>
   <tbody>
 
-    @foreach($posts as $post)
+    @foreach($posts as $index=>$post)
 
     {{-- @dd($post) ==>//  print first row in array and die --}}
     <tr>
@@ -30,8 +30,8 @@
         {{--<td>{{$post['title']}}</td>--}}
         {{--<td>{{$post['posted_by']}}</td>--}}
         {{--<td>{{$post['created_at']}}</td>--}}
+      <th scope="row">{{++$index}}</th>
 
-      <th scope="row">{{$i++}}</th>
       <td>{{$post->title}}</td>
 
         {{--@if($post->user)--}}

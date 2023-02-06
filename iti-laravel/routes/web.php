@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GoogleController;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,3 +62,63 @@ Route::get('/comments/delete/{comment}', [CommentController::class, 'delete'])->
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// laravel socialite
+use Laravel\Socialite\Facades\Socialite;
+
+// github
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+})->name('github-auth');
+
+Route::get('/auth/callback', function ()
+{
+        $githubUser = Socialite::driver('github')->user();
+
+        $user = User::where('email',$githubUser->getEmail())->first();
+        // dd($user);
+
+        if(!$user){ //if user not found -> create
+            $userNew = User::create( [
+                'name' => $githubUser->getName(),
+                'email' => $githubUser->getEmail(),
+                'google_id' => $githubUser->getId(),
+            ]);
+
+            Auth::login($userNew);
+
+            return redirect('/posts');
+        }
+        else{
+            Auth::login($user);
+            return redirect('/posts');
+        }
+});
+
+// google
+Route::get('/auth/google', function () {
+    return Socialite::driver('google')->redirect();
+})->name('google-auth');
+
+Route::get('/auth/google/call-back', function ()
+{
+        $googleUser = Socialite::driver('google')->user();
+
+        $user = User::where('email',$googleUser->getEmail())->first();
+
+        if(!$user){
+            $userNew = User::create( [
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
+            ]);
+
+            Auth::login($userNew);
+
+            return redirect('/posts');
+        }
+        else{
+            Auth::login($user);
+            return redirect('/posts');
+        }
+});

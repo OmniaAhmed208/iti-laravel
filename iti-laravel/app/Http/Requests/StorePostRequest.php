@@ -27,7 +27,8 @@ class StorePostRequest extends FormRequest
         return [
             'title' => ['required', 'min:3'],
             'description' => ['required', 'min:10'],
-            'image' => ['image','mimes:jpg,png'],
+            "select_post" => 'exists:\App\Models\User,id', // laravel validation (exists)
+            'image' => ['mimes:jpg,png'],
         ];
     }
 
